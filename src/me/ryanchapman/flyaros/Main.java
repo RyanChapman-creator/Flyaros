@@ -10,6 +10,7 @@ public class Main {
         String prompt = new Scanner(System.in).nextLine();
         switch (prompt.toLowerCase()) {
             case "hello" -> System.out.println("Hello, User!");
+            case "goodbye" -> System.out.println("Goodbye, User!");
             default -> System.out.println("I don't understand.");
         }
     }
