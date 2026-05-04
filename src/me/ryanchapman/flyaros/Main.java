@@ -12,6 +12,8 @@ public class Main {
             String prompt = new Scanner(System.in).nextLine();
             switch (prompt.toLowerCase()) {
                 case "hello" -> System.out.println("Hello, User!");
+                case "how are you" -> System.out.println("I am doing good.");
+                case "what is your name" -> System.out.println("My name is Flyaros.");
                 case "goodbye" -> {
                     running = false;
                     System.out.println("Goodbye, User!");
