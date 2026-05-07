@@ -10,7 +10,7 @@ public class Main {
             System.out.print("> ");
             @SuppressWarnings("resource")
             String prompt = new Scanner(System.in).nextLine();
-            switch (prompt.toLowerCase()) {
+            switch (normalize(prompt)) {
                 case "hello" -> System.out.println("Hello, User!");
                 case "how are you" -> System.out.println("I am doing good.");
                 case "what is your name" -> System.out.println("My name is Flyaros.");
@@ -21,5 +21,15 @@ public class Main {
                 default -> System.out.println("I don't understand.");
             }
         }
+    }
+
+    private static final String normalize(final String x) {
+        final StringBuilder sb = new StringBuilder();
+        for (char c : x.toCharArray()) {
+            if (Character.isLetterOrDigit(c) || c == ' ') {
+                sb.append(c);
+            }
+        }
+        return sb.toString().toLowerCase();
     }
 }
