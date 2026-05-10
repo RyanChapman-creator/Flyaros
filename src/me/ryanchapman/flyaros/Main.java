@@ -25,10 +25,19 @@ public class Main {
 
     private static final String normalize(final String x) {
         final StringBuilder sb = new StringBuilder();
+        boolean word = false;
         for (char c : x.toCharArray()) {
-            if (Character.isLetterOrDigit(c) || c == ' ') {
+            if (word && Character.isWhitespace(c)) {
+                word = false;
+                sb.append(' ');
+            }
+            else if (Character.isLetterOrDigit(c)) {
+                word = true;
                 sb.append(c);
             }
+        }
+        if (sb.charAt(sb.length()-1) == ' ') {
+            sb.deleteCharAt(sb.length()-1);
         }
         return sb.toString().toLowerCase();
     }
