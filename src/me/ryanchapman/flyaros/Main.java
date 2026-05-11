@@ -16,7 +16,7 @@ public class Main {
                 case "hello" -> System.out.println("Hello, User!");
                 case "how are you" -> System.out.println("I am doing good.");
                 case "what is your name" ->
-                    System.out.printf("My name is %s.\n", botModel.getName());
+                    System.out.printf("My name is %s.\n", capitalize(botModel.getName(), true));
                 case "goodbye" -> {
                     running = false;
                     System.out.println("Goodbye, User!");
@@ -53,5 +53,20 @@ public class Main {
             sb.deleteCharAt(sb.length()-1);
         }
         return sb.toString().toLowerCase();
+    }
+
+    private static final String capitalize(final String x, final boolean allWords) {
+        if (x.isEmpty()) return x;
+        else if (!allWords)
+            return Character.toUpperCase(x.charAt(0)) + x.substring(1).toLowerCase();
+        else {
+            StringBuilder sb = new StringBuilder(x);
+            for (int i = 1; i < sb.length(); i++) {
+                if (sb.charAt(i-1) == ' ')
+                    sb.setCharAt(i, Character.toUpperCase(sb.charAt(i)));
+            }
+            sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+            return sb.toString();
+        }
     }
 }
