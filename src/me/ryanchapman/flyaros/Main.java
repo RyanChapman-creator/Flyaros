@@ -6,15 +6,25 @@ import java.util.Scanner;
 public class Main {
     
     public static void main(String[] args) {
+        @SuppressWarnings("resource")
+        final Scanner scanner = new Scanner(System.in);
         final BotModelDAO dao = new BotModelDAO();
-        BotModel botModel;
+        final BotModel botModel;
         if (args.length > 0)
             botModel = dao.load(new File(args[0]));
-        else
-            botModel = new BotModel("flyaros");
+        else {
+            System.out.print("Do you want to load a chatbot? [Y]es [N]o\n> ");
+            String answer = scanner.nextLine();
+            if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("YES")) {
+                System.out.print("Enter the file you want to load from.\n> ");
+                answer = scanner.nextLine();
+                botModel = dao.load(new File(answer));
+                System.out.printf("Loaded chatbot from %s\n", answer);
+            }
+            else
+                botModel = new BotModel("flyaros");
+        }
         boolean running = true;
-        @SuppressWarnings("resource")
-        Scanner scanner = new Scanner(System.in);
         while (running) {
             System.out.print("> ");
             String prompt = scanner.nextLine();
