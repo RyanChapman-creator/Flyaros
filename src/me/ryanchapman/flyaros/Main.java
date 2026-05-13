@@ -10,8 +10,10 @@ public class Main {
         final Scanner scanner = new Scanner(System.in);
         final BotModelDAO dao = new BotModelDAO();
         final BotModel botModel;
-        if (args.length > 0)
+        if (args.length > 0) {
             botModel = dao.load(new File(args[0]));
+            System.out.printf("Loaded chatbot state from %s\n", args[0]);
+        }
         else {
             System.out.print("Do you want to load a chatbot? [Y]es [N]o\n> ");
             String answer = scanner.nextLine();
@@ -19,10 +21,13 @@ public class Main {
                 System.out.print("Enter the file you want to load from.\n> ");
                 answer = scanner.nextLine();
                 botModel = dao.load(new File(answer));
-                System.out.printf("Loaded chatbot from %s\n", answer);
+                System.out.printf("Loaded chatbot state from %s\n", answer);
             }
-            else
+            else {
                 botModel = new BotModel("flyaros");
+                System.out.println("Loaded default chatbot state");
+            }
+                
         }
         boolean running = true;
         while (running) {
@@ -57,6 +62,9 @@ public class Main {
             System.out.print("Enter the file you want to save to.\n> ");
             answer = scanner.nextLine();
             dao.save(new File(answer), botModel);
+            System.out.printf("Saved chatbot state to %s\n", answer);
+        } else {
+            System.out.printf("Discarded chatbot state\n");
         }
     }
 
