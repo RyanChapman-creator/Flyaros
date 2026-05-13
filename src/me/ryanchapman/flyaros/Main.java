@@ -1,11 +1,16 @@
 package me.ryanchapman.flyaros;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
     
     public static void main(String[] args) {
-        BotModel botModel = new BotModel("flyaros");
+        BotModel botModel;
+        if (args.length > 0)
+            botModel = new BotModelDAO().load(new File(args[0]));
+        else
+            botModel = new BotModel("flyaros");
         boolean running = true;
         while (running) {
             System.out.print("> ");
@@ -36,7 +41,7 @@ public class Main {
         }
     }
 
-    private static final String normalize(final String x) {
+    static final String normalize(final String x) {
         final StringBuilder sb = new StringBuilder();
         boolean word = false;
         for (char c : x.toCharArray()) {
