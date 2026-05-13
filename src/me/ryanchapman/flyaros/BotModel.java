@@ -1,18 +1,20 @@
 package me.ryanchapman.flyaros;
 
-public class BotModel {
+import java.util.Objects;
+
+final class BotModel {
 
     private String name;
 
-    public BotModel(String name) {
+    BotModel(final String name) {
         setName(name);
     }
 
-    public final void setName(final String name) {
-        this.name = name;
+    final void setName(final String name) {
+        this.name = Objects.requireNonNull(name);
     }
 
-    public final String getName() {
+    final String getName() {
         return name;
     }
 }
