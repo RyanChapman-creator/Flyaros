@@ -6,16 +6,18 @@ import java.util.Scanner;
 public class Main {
     
     public static void main(String[] args) {
+        final BotModelDAO dao = new BotModelDAO();
         BotModel botModel;
         if (args.length > 0)
-            botModel = new BotModelDAO().load(new File(args[0]));
+            botModel = dao.load(new File(args[0]));
         else
             botModel = new BotModel("flyaros");
         boolean running = true;
+        @SuppressWarnings("resource")
+        Scanner scanner = new Scanner(System.in);
         while (running) {
             System.out.print("> ");
-            @SuppressWarnings("resource")
-            String prompt = new Scanner(System.in).nextLine();
+            String prompt = scanner.nextLine();
             String normalized = normalize(prompt);
             switch (normalized) {
                 case "hello" -> System.out.println("Hello, User!");
@@ -38,6 +40,13 @@ public class Main {
                     else System.out.println("I don't understand.");
                 }
             }
+        }
+        System.out.print("Do you want to save the state of the chatbot? [Y]es [N]o\n> ");
+        String answer = scanner.nextLine();
+        if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("YES")) {
+            System.out.print("Enter the file you want to save to.\n> ");
+            answer = scanner.nextLine();
+            dao.save(new File(answer), botModel);
         }
     }
 

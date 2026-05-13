@@ -3,6 +3,7 @@ package me.ryanchapman.flyaros;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class BotModelDAO {
@@ -35,6 +36,25 @@ public class BotModelDAO {
             throw new RuntimeException(errorMsg);
         } catch (IOException e) {
             final String errorMsg = String.format("An error occurred while trying to read '%s'.", file.getPath());
+            throw new RuntimeException(errorMsg);
+        }
+    }
+
+    /**
+     * Save to Flyaros data file v1.0.0
+     * @param file a file object to where the data to be saved
+     * @param botModel the bot model to be saved
+     * @return the loaded bot model
+     */
+    public final void save(File file, BotModel botModel) {
+        if (!file.getName().endsWith(".dat") && !file.getName().endsWith(".fly"))
+            throw new RuntimeException("Flyaros data files should end in either .dat or .fly");
+        try (FileWriter fWriter = new FileWriter(file)) {
+            StringBuilder sb = new StringBuilder("flyaros.datafile v1.0.0\n");
+            sb.append("bot.name=").append(botModel.getName());
+            fWriter.write(sb.toString());
+        } catch (IOException e) {
+            final String errorMsg = String.format("An error occurred while trying to write to '%s'. The data was not saved.", file.getPath());
             throw new RuntimeException(errorMsg);
         }
     }
