@@ -13,11 +13,11 @@ final class BotLogic {
     final String respond(final String prompt) {
         final String normalized = BotLogic.normalize(prompt);
         return switch (normalized) {
-            case "hello" -> "Hello, User!";
-            case "how are you" -> "I am doing good.";
-            case "what is your name" ->
-                String.format("My name is %s.\n", BotLogic.capitalize(botModel.getName(), true));
-            case "goodbye" -> {
+            case "hello", "hi", "whats up" -> "Hello, User!";
+            case "how are you", "how are you doing" -> "I am doing good.";
+            case "what is your name", "who are you", "whats your name" ->
+                String.format("My name is %s.", BotLogic.capitalize(botModel.getName(), true));
+            case "goodbye", "bye" -> {
                 Main.running = false;
                 yield "Goodbye, User!";
             }
@@ -28,6 +28,10 @@ final class BotLogic {
                 }
                 else if (normalized.startsWith("your name is ")) {
                     botModel.setName(normalized.substring("your name is ".length()));
+                    yield "I accept this new name.";
+                }
+                else if (normalized.startsWith("you are now ")) {
+                    botModel.setName(normalized.substring("you are now ".length()));
                     yield "I accept this new name.";
                 }
                 else yield "I don't understand.";
