@@ -1,6 +1,8 @@
 package me.ryanchapman.flyaros;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 final class BotLogic {
     
@@ -13,21 +15,25 @@ final class BotLogic {
     final String respond(final String prompt) {
         final String normalized = BotLogic.normalize(prompt);
         return switch (normalized) {
-            case "hello" -> "Hello, User!";
-            case "how are you" -> "I am doing good.";
-            case "what is your name" ->
-                String.format("My name is %s.\n", BotLogic.capitalize(botModel.getName(), true));
-            case "goodbye" -> {
+            case "hello", "hi", "whats up" -> "Hello, User!";
+            case "how are you", "how are you doing" -> "I am doing good.";
+            case "what is your name",  "whats your name" ->
+                String.format("My name is %s.", BotLogic.capitalize(botModel.getName(), true));
+            case "who are you" ->
+                String.format("I am %s.", BotLogic.capitalize(botModel.getName(), true));
+            case "goodbye", "bye" -> {
                 Main.running = false;
                 yield "Goodbye, User!";
             }
             default -> {
-                if (normalized.startsWith("your name is now ")) {
-                    botModel.setName(normalized.substring("your name is now ".length()));
+                final Pattern pattern = Pattern.compile("^your name is (now )?(?<name>[\\w ]+)");
+                final Matcher matcher = pattern.matcher(normalized);
+                if (matcher.find()) {
+                    botModel.setName(matcher.group("name"));
                     yield "I accept this new name.";
                 }
-                else if (normalized.startsWith("your name is ")) {
-                    botModel.setName(normalized.substring("your name is ".length()));
+                else if (normalized.startsWith("you are now ")) {
+                    botModel.setName(normalized.substring("you are now ".length()));
                     yield "I accept this new name.";
                 }
                 else yield "I don't understand.";
@@ -56,16 +62,15 @@ final class BotLogic {
 
     static final String capitalize(final String x, final boolean allWords) {
         if (x.isEmpty()) return x;
-        else if (!allWords)
-            return Character.toUpperCase(x.charAt(0)) + x.substring(1).toLowerCase();
-        else {
-            StringBuilder sb = new StringBuilder(x);
-            for (int i = 1; i < sb.length(); i++) {
-                if (sb.charAt(i-1) == ' ')
-                    sb.setCharAt(i, Character.toUpperCase(sb.charAt(i)));
-            }
-            sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
-            return sb.toString();
+
+        StringBuilder sb = new StringBuilder(x.length())
+            .append(Character.toUpperCase(x.charAt(0)));
+        for (int i = 1; i < x.length(); i++) {
+            if (allWords && x.charAt(i-1) == ' ')
+                sb.append(Character.toUpperCase(x.charAt(i)));
+            else
+                sb.append(Character.toLowerCase(x.charAt(i)));
         }
+        return sb.toString();
     }
 }
