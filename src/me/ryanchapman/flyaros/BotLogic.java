@@ -1,6 +1,8 @@
 package me.ryanchapman.flyaros;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 final class BotLogic {
     
@@ -15,19 +17,19 @@ final class BotLogic {
         return switch (normalized) {
             case "hello", "hi", "whats up" -> "Hello, User!";
             case "how are you", "how are you doing" -> "I am doing good.";
-            case "what is your name", "who are you", "whats your name" ->
+            case "what is your name",  "whats your name" ->
                 String.format("My name is %s.", BotLogic.capitalize(botModel.getName(), true));
+            case "who are you" ->
+                String.format("I am %s.", BotLogic.capitalize(botModel.getName(), true));
             case "goodbye", "bye" -> {
                 Main.running = false;
                 yield "Goodbye, User!";
             }
             default -> {
-                if (normalized.startsWith("your name is now ")) {
-                    botModel.setName(normalized.substring("your name is now ".length()));
-                    yield "I accept this new name.";
-                }
-                else if (normalized.startsWith("your name is ")) {
-                    botModel.setName(normalized.substring("your name is ".length()));
+                final Pattern pattern = Pattern.compile("^your name is (now )?(?<name>\\w+)");
+                final Matcher matcher = pattern.matcher(normalized);
+                if (matcher.find()) {
+                    botModel.setName(matcher.group("name"));
                     yield "I accept this new name.";
                 }
                 else if (normalized.startsWith("you are now ")) {
