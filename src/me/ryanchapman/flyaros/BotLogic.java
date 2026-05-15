@@ -62,16 +62,15 @@ final class BotLogic {
 
     static final String capitalize(final String x, final boolean allWords) {
         if (x.isEmpty()) return x;
-        else if (!allWords)
-            return Character.toUpperCase(x.charAt(0)) + x.substring(1).toLowerCase();
-        else {
-            StringBuilder sb = new StringBuilder(x);
-            for (int i = 1; i < sb.length(); i++) {
-                if (sb.charAt(i-1) == ' ')
-                    sb.setCharAt(i, Character.toUpperCase(sb.charAt(i)));
-            }
-            sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
-            return sb.toString();
+
+        StringBuilder sb = new StringBuilder(x.length())
+            .append(Character.toUpperCase(x.charAt(0)));
+        for (int i = 1; i < x.length(); i++) {
+            if (allWords && x.charAt(i-1) == ' ')
+                sb.append(Character.toUpperCase(x.charAt(i)));
+            else
+                sb.append(Character.toLowerCase(x.charAt(i)));
         }
+        return sb.toString();
     }
 }
