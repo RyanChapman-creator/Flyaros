@@ -26,7 +26,7 @@ final class BotLogic {
                 yield "Goodbye, User!";
             }
             default -> {
-                final Pattern pattern = Pattern.compile("^your name is (now )?(?<name>\\w+)");
+                final Pattern pattern = Pattern.compile("^your name is (now )?(?<name>[\\w ]+)");
                 final Matcher matcher = pattern.matcher(normalized);
                 if (matcher.find()) {
                     botModel.setName(matcher.group("name"));
