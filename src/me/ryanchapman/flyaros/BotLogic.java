@@ -21,6 +21,10 @@ final class BotLogic {
                 String.format("My name is %s.", BotLogic.capitalize(botModel.getName(), true));
             case "who are you" ->
                 String.format("I am %s.", BotLogic.capitalize(botModel.getName(), true));
+            case "what is my name", "whats my name" ->
+                String.format("Your name is %s.", BotLogic.capitalize(botModel.getUserName(), true));
+            case "who am i", "do you know who i am" ->
+                String.format("You are %s.", BotLogic.capitalize(botModel.getUserName(), true));
             case "goodbye", "bye" -> {
                 Main.running = false;
                 yield "Goodbye, User!";
