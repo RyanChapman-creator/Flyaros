@@ -15,7 +15,8 @@ final class BotLogic {
     final String respond(final String prompt) {
         final String normalized = BotLogic.normalize(prompt);
         return switch (normalized) {
-            case "hello", "hi", "whats up" -> "Hello, User!";
+            case "hello", "hi", "whats up" ->
+                String.format("Hello, %s!", BotLogic.capitalize(botModel.getUserName(), true));
             case "how are you", "how are you doing" -> "I am doing good.";
             case "what is your name",  "whats your name" ->
                 String.format("My name is %s.", BotLogic.capitalize(botModel.getName(), true));
@@ -27,7 +28,7 @@ final class BotLogic {
                 String.format("You are %s.", BotLogic.capitalize(botModel.getUserName(), true));
             case "goodbye", "bye" -> {
                 Main.running = false;
-                yield "Goodbye, User!";
+                yield String.format("Goodbye, %s!", BotLogic.capitalize(botModel.getUserName(), true));
             }
             default -> {
                 final Pattern pattern = Pattern.compile("^your name is (now )?(?<name>[\\w ]+)");
