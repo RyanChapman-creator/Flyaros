@@ -5,7 +5,7 @@ import java.util.Objects;
 final class BotModel {
 
     private String name;
-    private final String userName;
+    private String userName;
 
     BotModel(final String name) {
         setName(name);
@@ -14,7 +14,7 @@ final class BotModel {
 
     BotModel(final String name, final String userName) {
         setName(name);
-        this.userName = userName;
+        setUserName(userName);
     }
 
     final void setName(final String name) {
@@ -23,6 +23,10 @@ final class BotModel {
 
     final String getName() {
         return name;
+    }
+
+    final void setUserName(final String name) {
+        this.userName = Objects.requireNonNull(name);
     }
 
     final String getUserName() {

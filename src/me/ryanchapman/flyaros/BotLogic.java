@@ -41,6 +41,14 @@ final class BotLogic {
                     botModel.setName(normalized.substring("you are now ".length()));
                     yield "I accept this new name.";
                 }
+                else if (normalized.startsWith("my name is now ")) {
+                    botModel.setUserName(normalized.substring("my name is now ".length()));
+                    yield "I understand.";
+                }
+                else if (normalized.startsWith("i am now ")) {
+                    botModel.setUserName(normalized.substring("i am now ".length()));
+                    yield "I understand.";
+                }
                 else yield "I don't understand.";
             }
         };
