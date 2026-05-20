@@ -5,10 +5,16 @@ import java.util.Objects;
 final class BotModel {
 
     private String name;
-    private final String userName = "user";
+    private final String userName;
 
     BotModel(final String name) {
         setName(name);
+        this.userName = "user";
+    }
+
+    BotModel(final String name, final String userName) {
+        setName(name);
+        this.userName = userName;
     }
 
     final void setName(final String name) {
