@@ -10,16 +10,27 @@ Responding with goodbye to the chatbot will cause the program to exit the main l
 
 Flyaros data files can be specified as the first program argument. If omitted then the program will prompt the user if a data file should be loaded and where it is located.
 
-When the user exits the main loop, the program will ask if the user wants to save the state of the chatbot. Responding with yes will prompt the program to ask for the file location. Responding with no will discard the current state of the chatbot - effectively wiping the memory of the interaction.
+When the user exits the main loop, the program will ask if the user wants to save the state of the chatbot. Responding with yes will prompt the program to ask for the file location. Responding with no will discard the current state of the chatbot, effectively wiping the memory of the interaction.
 
 Data files can end in either .fly or .dat. The former indicates files specifically for Flyaros, and the latter indicates files meant to be used with other projects.
 
-The data files must start with "flyaros.datafile" followed by a space. The rest of the line must have the version of the data file prefixed with 'v'. 1.0.0 is the only supported version at this time.
+The data files must start with "flyaros.datafile" followed by a space. The rest of the line must have the version of the data file prefixed with 'v'. 1.0.0 and 1.1.0 are the only supported versions at this time.
 
-The next line must start with "bot.name=" and end with the name of the chatbot. It is recommended that names are lowercased, but this will also be done automatically. Any following lines are ignored.
+The next line must start with "bot.name=" and end with the name of the chatbot. It is recommended that names are lowercased, but this will also be done automatically.
 
-Example:
+For version 1.1.0, the next line must have the name of the user. Again the line must with the attribute name "user.name" followed by '=' followed by the name of the name in lowercase.
+
+For both v1.0.0 and v1.1.0 any lines following the required attributes are ignored.
+
+Example v1.0.0:
 ```
 flyaros.datafile v1.0.0
 bot.name=flyaros
+```
+
+Example v1.1.0:
+```
+flyaros.datafile v1.1.0
+bot.name=flyaros
+user.name=user
 ```

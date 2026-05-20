@@ -15,15 +15,20 @@ final class BotLogic {
     final String respond(final String prompt) {
         final String normalized = BotLogic.normalize(prompt);
         return switch (normalized) {
-            case "hello", "hi", "whats up" -> "Hello, User!";
+            case "hello", "hi", "whats up" ->
+                String.format("Hello, %s!", BotLogic.capitalize(botModel.getUserName(), true));
             case "how are you", "how are you doing" -> "I am doing good.";
             case "what is your name",  "whats your name" ->
                 String.format("My name is %s.", BotLogic.capitalize(botModel.getName(), true));
             case "who are you" ->
                 String.format("I am %s.", BotLogic.capitalize(botModel.getName(), true));
+            case "what is my name", "whats my name" ->
+                String.format("Your name is %s.", BotLogic.capitalize(botModel.getUserName(), true));
+            case "who am i", "do you know who i am" ->
+                String.format("You are %s.", BotLogic.capitalize(botModel.getUserName(), true));
             case "goodbye", "bye" -> {
                 Main.running = false;
-                yield "Goodbye, User!";
+                yield String.format("Goodbye, %s!", BotLogic.capitalize(botModel.getUserName(), true));
             }
             default -> {
                 final Pattern pattern = Pattern.compile("^your name is (now )?(?<name>[\\w ]+)");
@@ -35,6 +40,14 @@ final class BotLogic {
                 else if (normalized.startsWith("you are now ")) {
                     botModel.setName(normalized.substring("you are now ".length()));
                     yield "I accept this new name.";
+                }
+                else if (normalized.startsWith("my name is now ")) {
+                    botModel.setUserName(normalized.substring("my name is now ".length()));
+                    yield "I understand.";
+                }
+                else if (normalized.startsWith("i am now ")) {
+                    botModel.setUserName(normalized.substring("i am now ".length()));
+                    yield "I understand.";
                 }
                 else yield "I don't understand.";
             }
