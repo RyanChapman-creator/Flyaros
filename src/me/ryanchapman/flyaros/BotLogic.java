@@ -41,6 +41,8 @@ final class BotLogic {
                     botModel.setName(normalized.substring("you are now ".length()));
                     yield "I accept this new name.";
                 }
+                else if (normalized.equals("is your name"))
+                    yield "Is my name what?";
                 else if (normalized.startsWith("is ") && normalized.endsWith(" your name")) {
                     final String suggestedName = normalized.substring("is ".length(), normalized.length()-" your name".length());
                     if (suggestedName.equals(botModel.getName()))
