@@ -41,6 +41,27 @@ final class BotLogic {
                     botModel.setName(normalized.substring("you are now ".length()));
                     yield "I accept this new name.";
                 }
+                else if (normalized.startsWith("is ") && normalized.endsWith(" your name")) {
+                    final String suggestedName = normalized.substring("is ".length(), normalized.length()-" your name".length());
+                    if (suggestedName.equals(botModel.getName()))
+                        yield "Yes, that is my name.";
+                    else
+                        yield "No, that is not my name.";
+                }
+                else if (normalized.startsWith("is your name ")) {
+                    final String suggestedName = normalized.substring("is your name ".length());
+                    if (suggestedName.equals(botModel.getName()))
+                        yield "Yes, that is my name.";
+                    else
+                        yield "No, that is not my name.";
+                }
+                else if (normalized.startsWith("are you ")) {
+                    final String suggestedName = normalized.substring("are you ".length());
+                    if (suggestedName.equals(botModel.getName()))
+                        yield "Yes, that is my name.";
+                    else
+                        yield "No, that is not my name.";
+                }
                 else if (normalized.startsWith("my name is now ")) {
                     botModel.setUserName(normalized.substring("my name is now ".length()));
                     yield "I understand.";
