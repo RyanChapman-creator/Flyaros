@@ -19,10 +19,12 @@ public final class Main {
     
     static boolean running = true;
     private static final Scanner scanner = new Scanner(System.in);
+    private static File file = null;
     
     private static final BotModel load(final BotModelDAO dao, final String[] args) {
         if (args.length > 0) {
-            final BotModel botModel = dao.load(new File(args[0]));
+            file = new File(args[0]);
+            final BotModel botModel = dao.load(file);
             System.out.printf("Loaded chatbot state from %s\n", args[0]);
             return botModel;
         }
@@ -32,7 +34,8 @@ public final class Main {
             if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("YES")) {
                 System.out.print("Enter the file you want to load from.\n> ");
                 answer = scanner.nextLine();
-                final BotModel botModel = dao.load(new File(answer));
+                file = new File(answer);
+                final BotModel botModel = dao.load(file);
                 System.out.printf("Loaded chatbot state from %s\n", answer);
                 return botModel;
             }
@@ -48,9 +51,19 @@ public final class Main {
         System.out.print("Do you want to save the state of the chatbot? [Y]es [N]o\n> ");
         String answer = scanner.nextLine();
         if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("YES")) {
-            System.out.print("Enter the file you want to save to.\n> ");
-            answer = scanner.nextLine();
-            dao.save(new File(answer), botModel);
+            if (file != null) {
+                System.out.print("Do you want use the same file? [Y]es [N]o\n> ");
+                answer = scanner.nextLine();
+                if (!answer.equalsIgnoreCase("Y") && !answer.equalsIgnoreCase("YES")) {
+                    file = null;
+                }
+            }
+            if (file == null) {
+                System.out.print("Enter the file you want to save to.\n> ");
+                answer = scanner.nextLine();
+                file = new File(answer);
+            }
+            dao.save(file, botModel);
             System.out.printf("Saved chatbot state to %s\n", answer);
         } else {
             System.out.printf("Discarded chatbot state\n");
