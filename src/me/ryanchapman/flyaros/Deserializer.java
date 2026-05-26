@@ -43,6 +43,10 @@ final class Deserializer {
             throw new ParseException(errorFmt, line);
         }
         final String botName = BotLogic.normalize(data.get(line++).substring("bot.name=".length()));
+        if (!data.get(line).startsWith("user.name=")) {
+            final String errorFmt = "The provided file '%s' cannot be loaded due to the missing field 'user.name'.";
+            throw new ParseException(errorFmt, line);
+        }
         final String userName = BotLogic.normalize(data.get(line++).substring("user.name=".length()));
         return new BotModel(botName, userName);
     }
