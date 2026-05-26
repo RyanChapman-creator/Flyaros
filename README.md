@@ -18,13 +18,15 @@ Data files can end in either .fly or .dat. The former indicates files specifical
 
 The data files must start with "flyaros.datafile" followed by a space. The rest of the line must have the version of the data file prefixed with 'v'. 1.0.0 - 1.2.0 are the only supported versions at this time.
 
-The next line must start with "bot.name=" and end with the name of the chatbot. It is recommended that names are lowercased, but this will also be done automatically.
+The rest of file should be composed of attributes. An Attribute starts with its name followed by '=' followed by its value.
 
-In version 1.1.0, the next line must have the name of the user. Again the line must with the attribute name "user.name" followed by '=' followed by the name of the name in lowercase.
+In versions 1.0.0 and 1.1.0, the next line must be "bot.name" which is the name of the chatbot. It is recommended that names are lowercased, but this will also be done automatically.
+
+In version 1.1.0, the next line must have the name of the user which is denoted as "user.name". Again the name should be in lowercase.
 
 In both v1.0.0 and v1.1.0, any lines following the required attributes are ignored.
 
-Starting from version 1.2.0 onward, the attributes may appear in any order.
+Starting from version 1.2.0 onwards, the attributes may appear in any order.
 
 Example v1.0.0:
 ```
