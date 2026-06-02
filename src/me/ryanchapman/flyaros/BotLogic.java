@@ -15,6 +15,7 @@ final class BotLogic {
     final String respond(final String prompt) {
         final String normalized = BotLogic.normalize(prompt);
         return switch (normalized) {
+            case "" -> "";
             case "hello", "hi", "whats up" ->
                 String.format("Hello, %s!", BotLogic.capitalize(botModel.getUserName(), true));
             case "how are you", "how are you doing" -> "I am doing good.";
@@ -78,7 +79,7 @@ final class BotLogic {
     }
 
     static final String normalize(final String x) {
-        if (x.isBlank()) return x;
+        if (x.isBlank()) return "";
         final StringBuilder sb = new StringBuilder();
         boolean word = false;
         for (char c : x.toCharArray()) {
