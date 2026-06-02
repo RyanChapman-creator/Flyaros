@@ -12,7 +12,9 @@ public final class Main {
         while (running) {
             System.out.print("> ");
             final String prompt = scanner.nextLine();
-            System.out.println(botLogic.respond(prompt));
+            final String response = botLogic.respond(prompt);
+            if (!response.isBlank())
+                System.out.println(response);
         }
         save(dao, botModel);
     }
