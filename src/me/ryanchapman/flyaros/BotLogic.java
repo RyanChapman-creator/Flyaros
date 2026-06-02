@@ -78,6 +78,7 @@ final class BotLogic {
     }
 
     static final String normalize(final String x) {
+        if (x.isBlank()) return x;
         final StringBuilder sb = new StringBuilder();
         boolean word = false;
         for (char c : x.toCharArray()) {
@@ -98,7 +99,6 @@ final class BotLogic {
 
     static final String capitalize(final String x, final boolean allWords) {
         if (x.isEmpty()) return x;
-
         StringBuilder sb = new StringBuilder(x.length())
             .append(Character.toUpperCase(x.charAt(0)));
         for (int i = 1; i < x.length(); i++) {
